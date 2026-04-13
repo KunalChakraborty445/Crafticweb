@@ -11,7 +11,6 @@ export default function Footer() {
     <footer className="border-t border-zinc-800 px-10 pt-8 pb-6">
       <div className="flex flex-wrap items-start justify-between gap-8 mb-8">
 
-        {/* Brand */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-white flex items-center justify-center">
@@ -24,7 +23,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links */}
         <div className="flex flex-wrap gap-12">
           {Object.entries(footerLinks).map(([group, links]) => (
             <div key={group} className="flex flex-col gap-2.5">
@@ -46,7 +44,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="flex flex-wrap items-center
        justify-between gap-3 pt-6 border-t border-zinc-800">
         <span className="text-xs text-zinc-600">
