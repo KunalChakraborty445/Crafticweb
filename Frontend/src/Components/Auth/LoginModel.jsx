@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { X } from 'lucide-react'
 import { signInWithPopup } from 'firebase/auth'
-import { auth, provider } from '../../FireBase'
+import { auth, provider } from '../../FireBase.js'
 import axios from 'axios'
 import { serverUrl } from '../../App'
 
@@ -16,7 +16,7 @@ const LoginModel = ({ open, onClose }) => {
       const { data } = await axios.post(`${serverUrl}/api/v1/auth/register`, {
         name: response.user.displayName,
         email: response.user.email,
-        profilePic: response.user.photoURL
+        avatar: response.user.photoURL
       }, { withCredentials: true })
 
       console.log(data)
