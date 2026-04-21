@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userSlice from './userSlice.js'
 
-
-
-export default configureStore({
+export const store = configureStore({
   reducer: {
-    user: userSlice
-  }
+    user: userSlice,
+  },
 })
 
-//3 hourson points
+export default store

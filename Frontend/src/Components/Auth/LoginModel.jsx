@@ -5,10 +5,13 @@ import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../../FireBase.js'
 import axios from 'axios'
 import { serverUrl } from '../../App'
+import { useDispatch } from 'react-redux'
+import { setUserData } from '../../redux/userSlice.js'
 
 const LoginModel = ({ open, onClose }) => {
   const [loading, setLoading] = useState(false)
 
+  const dispatch = useDispatch();
   const handleGoogleAuth = async () => {
     setLoading(true)
     try {
@@ -19,7 +22,7 @@ const LoginModel = ({ open, onClose }) => {
         avatar: response.user.photoURL
       }, { withCredentials: true })
 
-      console.log(data)
+      dispatch(setUserData(data.user))
       onClose()
     } catch (error) {
       console.error(error)

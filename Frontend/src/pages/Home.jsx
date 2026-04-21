@@ -6,6 +6,7 @@ import HeroSection from '../Components/HeroSection';
 import CardHomeSection from '../Components/CardHomeSection';
 import Footer from '../Components/Footer';
 import LoginModel from '../Components/Auth/LoginModel';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
 
