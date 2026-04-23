@@ -74,6 +74,7 @@ const LoginModel = ({ open, onClose }) => {
               <div className='relative px-8 pt-14 pb-10 text-center'>
                 {/* Badge */}
                 <h1 className='inline-block mb-6 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-400'>
+                  <span className='w-2 h-2 rounded-full bg-yellow-400 animate-pulse' />
                   AI powered website builder
                 </h1>
 
@@ -92,23 +93,50 @@ const LoginModel = ({ open, onClose }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="mt-2 px-4 py-2 rounded-lg bg-white text-black text-sm font-medium
-                    flex items-center gap-2 mx-auto
-                    shadow-[0_1px_2px_rgba(0,0,0,0.15)]
-                    hover:-translate-y-px hover:scale-[1.03] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)]
-                    active:scale-[0.96] active:translate-y-px
-                    transition-[transform,box-shadow] duration-150 cursor-pointer
-                    disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
+                  className="inline-flex items-center justify-center gap-3
+                              px-7 h-14 w-[340px]
+                              bg-white dark:bg-neutral-900
+                              text-base font-medium text-neutral-900 dark:text-neutral-100
+                              border border-neutral-300 dark:border-neutral-700
+                              rounded-xl cursor-pointer select-none
+                              transition-[border-color,transform] duration-[130ms]
+                              hover:border-neutral-400 hover:-translate-y-px
+                              active:scale-[0.975] active:bg-neutral-50
+                              focus-visible:outline-none focus-visible:ring-2
+                              focus-visible:ring-[#4285F4]/35
+                              disabled:opacity-45 disabled:pointer-events-none"
+
                 >
                   {!loading && (
                     <img
-                      className="h-4 w-4 object-contain"
+                      className="h-8 w-8 object-contain bg-white rounded-full p-1 z-10"
                       src="https://www.citypng.com/public/uploads/preview/google-logo-icon-gsuite-hd-701751694791470gzbayltphh.png"
                       alt="Google logo"
                     />
                   )}
                   {loading ? 'Signing in...' : 'Continue with Google'}
                 </motion.button>
+
+                <div className='mt-8'>
+                      <div className="flex items-center mt-4">
+                    <div className="flex-grow border-t border-zinc-300"></div>
+                    <span className="mx-3 text-xs text-zinc-500">Secure Login</span>
+                    <div className="flex-grow border-t border-zinc-300"></div>
+                  </div>
+
+                    <p className='text-xs  text-zinc-500 mt-4'>
+                      By continuing, you agree to our{' '}
+                      <a href="#" className='text-blue-500 hover:underline'>
+                        Terms of Service
+                      </a>{' '}
+                      and{' '}
+                      <a href="#" className='text-blue-500 hover:underline'>
+                        Privacy Policy
+                      </a>
+                      .
+                    </p>
+                </div>
+               
               </div>
 
             </div>

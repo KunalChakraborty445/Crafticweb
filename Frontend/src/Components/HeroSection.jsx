@@ -11,6 +11,7 @@ const codeSnippets = [
 ]
 
 const HeroSection = () => {
+  
   return (
     <section className='relative overflow-hidden pt-44 pb-32 px-6 text-center'>
 
