@@ -25,7 +25,7 @@ const Home = () => {
         <Navbar openLoginHandler={() => setOpenLogin(true)} />
       </motion.div>
 
-       <HeroSection />
+       <HeroSection  openLogin={() => setOpenLogin(true)}/>
 
        <CardHomeSection />
 

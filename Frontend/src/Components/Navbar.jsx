@@ -6,13 +6,14 @@ import { motion } from 'motion/react';
 import axios from 'axios';
 import { serverUrl } from '../App';
 import { setUserData } from '../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({openLoginHandler}) => {
 
     const { userData } = useSelector(state => state.user);
     const [openProfile, setOpenProfile] = useState(false);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate(); 
     const handleLogout = async()=>{
         try {
             await axios.get(`${serverUrl}/api/v1/auth/logout`, { withCredentials: true });
@@ -90,7 +91,11 @@ const Navbar = ({openLoginHandler}) => {
                                         <span>{userData.plan}</span>
                                     </button>
 
-                                    <button className='w-full px-4 py-3 text-left text-sm hover:bg-white/5'>Dashboard</button>
+                                    <button 
+                                    onClick={()=> navigate('/dashboard')}
+                                    className='w-full px-4 py-3 text-left text-sm hover:bg-white/5'>
+                                    Dashboard
+                                    </button>
                                     <button
                                     onClick={handleLogout}
                                     className='w-full px-4 py-4 text-left text-sm hover:bg-white/5 text-red-400'>Logout</button>
