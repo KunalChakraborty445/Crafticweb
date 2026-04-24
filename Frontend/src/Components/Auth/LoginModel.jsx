@@ -72,13 +72,11 @@ const LoginModel = ({ open, onClose }) => {
               </button>
 
               <div className='relative px-8 pt-14 pb-10 text-center'>
-                {/* Badge */}
                 <h1 className='inline-block mb-6 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-400'>
                   <span className='w-2 h-2 rounded-full bg-yellow-400 animate-pulse' />
                   AI powered website builder
                 </h1>
 
-                {/* Heading */}
                 <h2 className='text-3xl font-semibold leading-tight mb-6'>
                   <span className='text-white'>Welcome to </span>
                   <span className='bg-gradient-to-r from-blue-400 to-yellow-400 bg-clip-text text-transparent'>
@@ -86,7 +84,6 @@ const LoginModel = ({ open, onClose }) => {
                   </span>
                 </h2>
 
-                {/* Google button */}
                 <motion.button
                   onClick={handleGoogleAuth}
                   disabled={loading}

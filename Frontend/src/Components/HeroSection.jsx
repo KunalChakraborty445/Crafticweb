@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'motion/react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const codeSnippets = [
   { code: '<div className="hero"/>', top: '20%', left: '5%', delay: 0 },
@@ -10,7 +12,10 @@ const codeSnippets = [
   { code: 'bg-gradient-to-br', top: '80%', right: '4%', delay: 0.6 },
 ]
 
-const HeroSection = () => {
+const HeroSection = ({ openLogin }) => {
+
+  const navigate =useNavigate();
+   const { userData } = useSelector(state => state.user);
   
   return (
     <section className='relative overflow-hidden pt-44 pb-32 px-6 text-center'>
@@ -71,9 +76,11 @@ const HeroSection = () => {
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
         className='flex items-center justify-center gap-4 mt-10'
       >
-        <button className='px-8 py-3.5 rounded-xl bg-white text-black font-semibold 
+        <button
+        onClick={() =>  userData ? navigate('/dashboard') : openLogin()}
+        className='px-8 py-3.5 rounded-xl bg-white text-black font-semibold 
         hover:-translate-y-1 hover:scale-105 transition duration-300'>
-          Get Started
+          {userData ? "Go to Dashboard" : "Get Started"}
         </button>
         
       </motion.div>
