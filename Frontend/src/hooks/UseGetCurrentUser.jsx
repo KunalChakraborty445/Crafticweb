@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { serverUrl } from '../App'
 import { useDispatch } from 'react-redux'
-import { setUserData } from '../redux/userSlice'
+import { setUserData, setLoading } from '../redux/userSlice.js' 
 
 const UseGetCurrentUser = () => {
 
@@ -10,22 +10,20 @@ const UseGetCurrentUser = () => {
 
     useEffect(()=>{
         const getCurrentUser = async () => {
+            dispatch(setLoading(true));
             try {
-                const response = await axios.get(`${serverUrl}/api/v1/user/me`, { withCredentials: true });
-                dispatch(setUserData(response.data.user));
-            } catch (error) {
-                console.log(error);
+                const res = await axios.get(`${serverUrl}/api/v1/user/me`, { withCredentials: true });
+                dispatch(setUserData(res.data?.user ?? res.data));
+            } catch {
+                dispatch(setUserData(null)); 
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         getCurrentUser();
     },[dispatch])
 
-
-  return (
-    <div>
-      
-    </div>
-  )
+  return null // ← hooks don't need to return JSX
 }
 
 export default UseGetCurrentUser

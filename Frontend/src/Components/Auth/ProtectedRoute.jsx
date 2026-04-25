@@ -3,13 +3,16 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const ProtectedRoute = ({ element, openLogin }) => {
-  const { userData } = useSelector(state => state.user);
+  const { userData, loading } = useSelector(state => state.user); // ← add loading
 
-  useEffect(() => {
-    if (!userData) openLogin(); 
-  }, []);
+  if (loading) return null; // ← wait until auth check is done
 
-  return userData ? element : <Navigate to="/" replace />;
+  if (!userData) {
+    openLogin();
+    return <Navigate to="/" replace />;
+  }
+
+  return element;
 };
 
 export default ProtectedRoute;
