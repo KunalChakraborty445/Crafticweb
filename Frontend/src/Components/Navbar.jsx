@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 import axios from 'axios';
 import { serverUrl } from '../App';
 import { setUserData } from '../redux/userSlice';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = ({openLoginHandler}) => {
 
@@ -28,12 +28,14 @@ const Navbar = ({openLoginHandler}) => {
 
   return (
     <div className='max-w-7xl mx-auto  px-6 py-4 flex justify-between items-start '> 
+            <Link to={userData ? "/" : ""}>
             <div className='text-xl pt-2 font-semibold flex items-center gap-2'>
                 <div className='w-7 h-7 rounded-lg bg-white flex items-center justify-center'>
                     <BrainCircuitIcon size={15} className="text-black" />
                 </div>
                 CrafticWeb.ai
             </div>
+            </Link>
             <div className='flex items-center gap-5'>
                 <div className='px-4 py-2 rounded-lg hidden md:inline text-md text-zinc-400 hover:text-white cursor-pointer'>
                     Pricing
@@ -44,7 +46,7 @@ const Navbar = ({openLoginHandler}) => {
                  cursor-pointer hover:bg-white/10 transition'>
                     <Coins  className='text-yellow-500'/>
                     <span className='text-zinc-300 hidden md:inline'>Credits</span>
-                    <span>{userData.credits}+</span>
+                    <span>{userData?.credits} <span className='text-zinc-300'>+</span></span>
                    
                     
                 </div>}
