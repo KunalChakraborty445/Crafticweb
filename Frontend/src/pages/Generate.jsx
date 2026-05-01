@@ -21,7 +21,7 @@ const Generate = () => {
             <button
               onClick={() => navigate('/dashboard')}
               className='p-2 rounded-lg hover:bg-white/10 transition'><ArrowLeft size={20} /></button>
-            <h1 className='text-xl font-semibold'>CrafticWeb.<span className='text-zinc-400'>Ai</span></h1>
+            <h1 className='text-xl font-semibold'>CrafticWeb<span className='text-zinc-400'>.ai</span></h1>
           </div>
           <motion.span
             initial={{ opacity: 0 }}
@@ -39,8 +39,16 @@ const Generate = () => {
           animate={{ opacity: 1, y: 0 }}
           className='text-center mb-12'
         >
-          <h2 className='text-4xl md:text-5xl font-bold mb-4'>What are we building?</h2>
-          <p className='text-zinc-400 text-lg'>Describe your vision, and our AI will handle the rest.</p>
+              <div className='inline-flex items-center gap-2 px-3 py-1.5 rounded-full
+               bg-yellow-400/10 border border-yellow-400/20 mb-6'>
+                <span className='w-2 h-2 rounded-full bg-yellow-400 animate-pulse' />
+                <span className='text-yellow-400 text-xs font-semibold tracking-widest uppercase'>
+                  AI-Powered Website Builder
+                </span>
+              </div>
+
+              <h2 className='text-4xl md:text-5xl font-bold mb-4'>What are we building?</h2>
+              <p className='text-zinc-400 text-lg'>Describe your vision, and our AI will handle the rest.</p>
         </motion.div>
 
         <motion.div
