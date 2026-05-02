@@ -2,14 +2,34 @@ import { ArrowLeft, Sparkles, Send } from 'lucide-react';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
+import axios from 'axios';
+import { serverUrl } from '../App';
 
 const Generate = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
+
+
+
+
+  
   const handleGenerate = async () => {
-    console.log("generating");
+    if (!prompt) return;
+    try {
+      setIsGenerating(true);
+      const result = await axios.post(
+        `${serverUrl}/api/v1/website/generate`,
+        { prompt },
+        { withCredentials: true }
+      );
+      console.log('generate result:', result.data);
+    } catch (error) {
+      console.error('generate error:', error?.response || error);
+    } finally {
+      setIsGenerating(false);
+    }
     
   }
 
