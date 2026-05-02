@@ -8,6 +8,7 @@ import Generate from './pages/Generate';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './Components/Auth/ProtectedRoute.jsx';
 import LoginModel from './Components/Auth/LoginModel.jsx';
+import Editor from './pages/Editor.jsx';
 export const serverUrl = "http://localhost:4000";
 
 const App = () => {
@@ -28,6 +29,9 @@ const App = () => {
         } />
         <Route path="/generate" element={
           <ProtectedRoute element={<Generate />} openLogin={() => setLoginOpen(true)} />
+        } />
+        <Route path="/editor/:id" element={
+          <ProtectedRoute element={<Editor />} openLogin={() => setLoginOpen(true)} />
         } />
       </Routes>
     </BrowserRouter>
