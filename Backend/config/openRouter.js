@@ -2,7 +2,7 @@ const openRouterUrl ="https://openrouter.ai/api/v1/chat/completions"
 const model="deepseek/deepseek-chat"
 
 
-const generateResponce = async (prompt) => {
+export const generateResponce = async (prompt) => {
     const res = await fetch(openRouterUrl, {
         method: 'POST',
         headers: {
@@ -31,7 +31,7 @@ const generateResponce = async (prompt) => {
         throw new Error("openRouter error"+ error);
      }
      const data = await res.json();
-    return data;
+    return data.choices[0].message.content;
 
 }
 
