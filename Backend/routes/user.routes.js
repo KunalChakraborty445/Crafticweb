@@ -6,6 +6,7 @@ import { isAuthUser } from '../middlewares/isAuth.js';
 const userRouter = express.Router();
 
 userRouter.get('/me',isAuthUser, getCurrentUser)
+// userRouter.get('/generate', generateDemo)
 
 
 
