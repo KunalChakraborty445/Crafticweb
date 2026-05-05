@@ -7,6 +7,10 @@ const CardHomeSection = () => {
     "Production Ready Output",
   ];
 
+  const hilightDescriptions = [
+    
+  ]
+
   return (
     <section className="max-w-7xl mx-auto px-6 pb-32">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">

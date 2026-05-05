@@ -82,6 +82,13 @@ const HeroSection = ({ openLogin }) => {
         hover:-translate-y-1 hover:scale-105 transition duration-300'>
           {userData ? "Go to Dashboard" : "Get Started"}
         </button>
+        {!userData && (
+          <button
+          onClick={()=> navigate('/demo')}
+          className="px-8 py-4.5 rounded-xl border border-zinc-700 bg-zinc-900/50 text-zinc-300 text-sm font-medium transition-all hover:border-zinc-400 hover:text-white hover:bg-zinc-800">
+            View Demo
+          </button>
+        )}
         
       </motion.div>
 

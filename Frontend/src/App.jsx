@@ -8,7 +8,8 @@ import Generate from './pages/Generate';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './Components/Auth/ProtectedRoute.jsx';
 import LoginModel from './Components/Auth/LoginModel.jsx';
-import Editor from './pages/Editor.jsx';
+import WebsiteEditor from './pages/WebsiteEditor.jsx';
+import PricingPage from './pages/PricingPage.jsx';
 export const serverUrl = "http://localhost:4000";
 
 const App = () => {
@@ -31,12 +32,13 @@ const App = () => {
           <ProtectedRoute element={<Generate />} openLogin={() => setLoginOpen(true)} />
         } />
         <Route path="/editor/:id" element={
-          <ProtectedRoute element={<Editor />} openLogin={() => setLoginOpen(true)} />
+          <ProtectedRoute element={<WebsiteEditor />} openLogin={() => setLoginOpen(true)} />
+        } />
+        <Route path="/pricing" element={
+          <ProtectedRoute element={<PricingPage />} openLogin={() => setLoginOpen(true)} />
         } />
       </Routes>
     </BrowserRouter>
-
- 
   )
 }
 
