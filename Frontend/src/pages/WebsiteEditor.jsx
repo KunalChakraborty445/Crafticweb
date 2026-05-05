@@ -4,10 +4,16 @@ import { serverUrl } from '../App';
 import { useParams } from 'react-router-dom';
 import HeaderSection from '../Components/EditorUI/HeaderSection';
 import { ChatSection } from '../Components/EditorUI/ChatSection';
-import { Code2, Coins, MessageSquare, Monitor, Rocket, X } from 'lucide-react';
+import { Code2, Coins, Copy, CopyCheck, MessageSquare, Monitor, Rocket, X } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import { AnimatePresence, motion } from 'motion/react';
+import Editor from '@monaco-editor/react';
+import prettier from "prettier/standalone";
+import htmlParser from "prettier/plugins/html";
+import cssParser from "prettier/plugins/postcss"; 
 
-const Editor = () => {
+
+const WebsiteEditor = () => {
     const { userData } = useSelector(state => state.user);
     const { id } = useParams();
     const [website, setwebsite] = useState(null);
@@ -16,7 +22,13 @@ const Editor = () => {
     const [code, setCode] =useState("")
     const [message, setMessage] =useState([])
     const [isLoading, setIsLoading] = useState(false) 
-        const [showChat, setShowChat] = useState(false) 
+    const [showChat, setShowChat] = useState(false)
+    const [showCode, setShowCode] = useState(false)
+    const [showPreview, setShowPreview] = useState(false)
+    const previewIframeRef = useRef(null);
+    const [copyCode, setCopyCode] = useState(false);
+
+    
     
 
 const handleUpdate = async (prompt) => {
@@ -29,7 +41,17 @@ const handleUpdate = async (prompt) => {
             { withCredentials: true }
         )
         setMessage((m) => [...m, { role: "ai", content: result.data.message }])
-        setCode(result.data.code);
+        
+        const raw = result.data.code;
+         const formatted = await prettier.format(raw, {
+        parser: "html",
+        plugins: [htmlParser, cssParser],
+    });
+        
+        setCode(formatted);
+
+
+
     } catch (error) {
         const errMsg = error.response?.data?.message || "Something went wrong"
         console.error("Server says:", errMsg)
@@ -48,6 +70,22 @@ const handleUpdate = async (prompt) => {
             setMessage(website.conversation);
         }
     }, [website]);
+
+   useEffect(() => {
+    if (website?.latestCode && !code) {
+        prettier.format(website.latestCode, {
+            parser: "html",
+            plugins: [htmlParser, cssParser],
+        }).then(setCode);
+    }
+}, [website]);
+
+const handleCopyCode = () => {
+    if (!code) return;
+    navigator.clipboard.writeText(code);
+    setCopyCode(true);
+    setTimeout(() => setCopyCode(false), 1000);
+}
 
     useEffect(() => {
         const handleGetWebsite = async () => {
@@ -72,6 +110,17 @@ const handleUpdate = async (prompt) => {
         iframeRef.current.src = url;
         return () => URL.revokeObjectURL(url);
     }, [code, website?.latestCode]);
+
+    //show full screen preview when showPreview is true
+    useEffect(() => {
+    if (!showPreview || !previewIframeRef.current) return;
+    const latestCode = code || website?.latestCode;
+    if (!latestCode) return;
+    const blob = new Blob([latestCode], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    previewIframeRef.current.src = url;
+    return () => URL.revokeObjectURL(url);
+}, [showPreview, code, website?.latestCode]);
 
     if (websiteError) return (
         <div className='h-screen flex items-center justify-center bg-[#050505] text-red-400 font-mono'>
@@ -113,13 +162,13 @@ const handleUpdate = async (prompt) => {
                      />
                 </div>
             </aside>
-
-                    {showChat && (
-                <div
-                    className='fixed inset-0 z-40 bg-black/60 md:hidden'
-                    onClick={() => setShowChat(false)}
-                />
-            )}
+                
+                {showChat && (
+                        <div
+                            className='fixed inset-0 z-40 bg-black/60 md:hidden'
+                            onClick={() => setShowChat(false)}
+                        />
+                )}
 
             <div className='flex-1 flex flex-col bg-[#0A0A0A]'>
                 
@@ -132,7 +181,7 @@ const handleUpdate = async (prompt) => {
                             <MessageSquare size={18} />
                         </button>
                         <div className='w-2 h-2 rounded-full bg-emerald-500 animate-pulse' />
-                        <span className='text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold'>Live Engine</span>
+                        <span className='hidden md:inline-block text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold'>Live Engine</span>
 
                          {userData &&
                         <div className=' flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm
@@ -156,10 +205,14 @@ const handleUpdate = async (prompt) => {
                         
                         <div className='w-[1px] h-4 bg-white/10 mx-1' />
 
-                        <button className='hidden md:flex p-2 rounded-xl hover:bg-white/5 text-zinc-500 hover:text-white transition-colors'>
+                        <button
+                        onClick={()=> setShowCode(true)}
+                        className='flex p-2 rounded-xl hover:bg-white/5 text-zinc-500 hover:text-white transition-colors'>
                         <Code2 size={18} />
                         </button>
-                        <button className='hidden md:flex p-2 rounded-xl hover:bg-white/5 text-zinc-500 hover:text-white transition-colors'>
+                        <button
+                        onClick={()=> setShowPreview(true)}
+                        className='flex p-2 rounded-xl hover:bg-white/5 text-zinc-500 hover:text-white transition-colors'>
                             <Monitor size={18} />
                         </button>
                         </div>
@@ -176,8 +229,92 @@ const handleUpdate = async (prompt) => {
                     </div>
                 </main>
             </div>
+            
+            {/* <AnimatePresence>
+                {showCode && (
+                    <motion.div
+                    initial= {{ x: "100%" }}
+                    animate= {{ x: 0 }}
+                    exit= {{ x: "100%" }}
+                    className='fixed inset-y-0 right-0 w-full lg:w-[45%] z-[9999] bg-[#1e1e1e] flex flex-col'
+                    >
+
+                            <div className='h-12 px-4 flex justify-between items-center border-b border-white/10 bg-[#1e1e1e]'>
+                                <span className='text-sm font-medium'>index.html</span>
+                                <div className='flex justify-end items-center gap-4'>
+                                <button title='copy code' className='hover:p-2 bg-gray-500/15 rounded-2xl'><Copy size={18}/></button>
+                                <button title='close' className='hover:p-2 bg-gray-500/15 rounded-2xl' onClick={() => setShowCode(false)}><X size={15}/></button>
+                                </div>
+                            </div>
+                            <Editor
+                            theme='vs-dark'
+                            value={code}
+                            language='html'
+                            onChange={(v) => setCode(v)}
+                            />
+                    </motion.div>
+                )}
+            </AnimatePresence> */}
+            {/* Remove AnimatePresence entirely, keep Editor always mounted */}
+                <motion.div
+                    initial={{ x: "100%" }}
+                    animate={{ x: showCode ? 0 : "100%" }}
+                    transition={{ type: "tween", duration: 0.3 }}
+                    className='fixed inset-y-0 right-0 w-full lg:w-[45%] z-[9999] bg-[#1e1e1e] flex flex-col'
+                >
+                    <div className='h-12 px-4 flex justify-between items-center border-b border-white/10 bg-[#1e1e1e]'>
+                        <span className='text-sm font-medium'>index.html</span>
+                        <div className='flex justify-end items-center gap-4'>
+                            <button
+                            onClick={handleCopyCode}
+                            title='copy code' className='hover:p-2 bg-gray-500/15 rounded-2xl'>
+                                
+                                {!copyCode ? (
+                                    <Copy size={18}/>
+                                ) : (
+                                    <CopyCheck size={18}  className='text-green-400 animate-pulse' />
+                                )}
+                            </button>
+                            <button title='close' className='hover:p-2 bg-gray-500/15 rounded-2xl' onClick={() => setShowCode(false)}>
+                                <X size={15}/>
+                            </button>
+                        </div>
+                    </div>
+                    <Editor
+                        theme='vs-dark'
+                        value={code}
+                        language='html'
+                        onChange={(v) => setCode(v)}
+                    />
+                </motion.div>
+
+           <AnimatePresence>
+                {showPreview && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className='fixed inset-0 z-[9999] bg-black'
+                    >
+                        <iframe
+                            ref={previewIframeRef}
+                            title="full-screen-preview"
+                            sandbox="allow-scripts allow-same-origin allow-forms"
+                            className='h-full w-full bg-white border-none'
+                        />
+                        <button
+                            onClick={() => setShowPreview(false)}
+                            className='absolute top-4 right-4 p-2 bg-gray-500/15 rounded-2xl'
+                        >
+                            <X size={15}/>
+                        </button>
+        </motion.div>
+    )}
+</AnimatePresence>
+
+
         </div>
     );
 }
 
-export default Editor;
+export default WebsiteEditor;

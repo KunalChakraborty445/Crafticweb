@@ -37,7 +37,9 @@ const Navbar = ({openLoginHandler}) => {
             </div>
             </Link>
             <div className='flex items-center gap-5'>
-                <div className='px-4 py-2 rounded-lg hidden md:inline text-md text-zinc-400 hover:text-white cursor-pointer'>
+                <div
+                onClick={() => navigate('/pricing')}
+                className='px-4 py-2 rounded-lg hidden md:inline text-md text-zinc-400 hover:text-white  cursor-pointer'>
                     Pricing
                 </div>
                 
