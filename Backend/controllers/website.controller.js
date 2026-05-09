@@ -274,7 +274,7 @@ export const generateWebsite = async (req, res) => {
             console.error("AI returned invalid response after retries");
             return res.status(500).json({ message: "AI returned invalid response. Please try again." });
         }
-
+        //may remove later
         const slug = (() => {
             const base = prompt.slice(0, 60)
                 .toLowerCase()
@@ -427,5 +427,65 @@ export const getAllWebsites = async (req, res) => {
         return res.status(200).json(allWebsites);
     } catch (error) {
         return res.status(500).json({ message: error.message || "get all website Internal server error" });
+    }
+}
+
+
+
+
+export const deploy = async (req, res) => {
+    try {
+         const website = await Website.findOne({
+            _id: req.params.id,
+            user: req.user._id
+        })
+
+        if(!website){
+            return res.status(400).json({message: "website not foound"});
+        }
+
+        if(!website.slug){
+            website.slug = website.title
+                            .toLowerCase()
+                            .replace(/[^a-z0-9]+/g, "")
+                            .slice(0,60)+website._id.toString().slice(-5)
+        }
+
+        website.deployed= true;
+        website.deployUrl=`${process.env.FRONTEND_URL}/site/${website.slug}`
+        await website.save();
+
+
+        return res.status(200).json(
+            {
+                url: website.deployUrl
+            }
+        )
+
+
+    } catch (error) {
+         return res.status(500).json({ message: error.message || "Internal deploy server error" });
+    }  
+}
+
+//bcz we nee slug id to get to show on the iframe
+
+export const getWebsiteBySlug = async (req, res) => {
+    try {
+        console.log("Looking for slug:", req.params.slug); // 👈 add this
+        
+        const website = await Website.findOne({
+            slug: req.params.slug,
+            deployed: true
+        })
+        
+        console.log("Found:", website?.slug, "Deployed:", website?.deployed); // 👈 and this
+        
+        if (!website) {
+            return res.status(404).json({ message: "Website not found" });
+        }
+        return res.status(200).json(website);
+    } catch (error) {
+        return res.status(500).json({ message: `get by slug website error ${error}` });
     }
 }
