@@ -10,6 +10,7 @@ import ProtectedRoute from './Components/Auth/ProtectedRoute.jsx';
 import LoginModel from './Components/Auth/LoginModel.jsx';
 import WebsiteEditor from './pages/WebsiteEditor.jsx';
 import PricingPage from './pages/PricingPage.jsx';
+import LiveSite from './pages/LiveSite.jsx';
 export const serverUrl = "http://localhost:4000";
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home openLogin={() => setLoginOpen(true)} />} />
         <Route path="/demo" element={<SiteDemoPage />} />
+        <Route path="/site/:id" element={<LiveSite />} />
         <Route path="/dashboard" element={
           <ProtectedRoute element={<Dashboard />} openLogin={() => setLoginOpen(true)} />
         } />

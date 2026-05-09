@@ -197,7 +197,9 @@ const handleCopyCode = () => {
                     
 
                     <div className='flex items-center gap-2'>
-                        <button className='group flex items-center gap-2 px-4 py-2 rounded-full 
+                        <button
+                        onClick={() => handleD}
+                        className='group flex items-center gap-2 px-4 py-2 rounded-full 
                             bg-white text-black text-xs font-bold hover:bg-gradient-to-br from-blue-400 to-yellow-300 transition-all duration-300 active:scale-95'>
                             <Rocket size={14} className="group-hover:-translate-y-0.5 transition-transform" />
                             Deploy
@@ -225,6 +227,7 @@ const handleCopyCode = () => {
                             ref={iframeRef} 
                             title="preview"
                             className='w-full h-full border-none'
+                            sandbox='allow-scripts allow-same-origin allow-forms'
                         />
                     </div>
                 </main>
