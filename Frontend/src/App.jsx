@@ -17,8 +17,14 @@ const App = () => {
 
     UseGetCurrentUser();
 
-    const { userData } = useSelector(state => state.user);
+    const { loading } = useSelector(state => state.user);
   const [loginOpen, setLoginOpen] = useState(false);
+
+   if (loading) return (
+    <div className="min-h-screen bg-[#040404] flex items-center justify-center">
+      <div className="w-6 h-6 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+    </div>
+  );
 
   return (
     <BrowserRouter>

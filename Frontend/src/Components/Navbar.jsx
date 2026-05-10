@@ -11,6 +11,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 const Navbar = ({openLoginHandler}) => {
 
     const { userData } = useSelector(state => state.user);
+    console.log('Navbar: redux userData ->', userData);
     const [openProfile, setOpenProfile] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate(); 
