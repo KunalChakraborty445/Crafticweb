@@ -9,8 +9,10 @@ const generateToken = (id) => jwt.sign(
 
 const cookieOptions = {
     httpOnly: true,
-    sameSite: 'none',
-    secure: true,
+    // In production we require cross-site cookies (sameSite: 'none' and secure:true).
+    // For local development (http) set secure=false and a more permissive sameSite.
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === 'production',
     maxAge: 3 * 24 * 60 * 60 * 1000
 }
 
@@ -61,8 +63,8 @@ export const logoutUser = async (req, res) => {
     try {
         res.clearCookie('token', {
             httpOnly: true,
-            sameSite: 'none',
-            secure: true,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === 'production',
         })
         res.status(200).json({
             success: true,
