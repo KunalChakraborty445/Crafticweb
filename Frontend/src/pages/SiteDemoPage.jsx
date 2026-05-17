@@ -1,111 +1,136 @@
-import React from 'react';
-import { Play, Star, Info, CheckCircle } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const SiteDemoPage = () => {
-  const reviews = [
-    { name: "Alex Rivera", role: "UI Designer", text: "The most intuitive builder I've used this year. Game changer.", rating: 5 },
-    { name: "Sarah Chen", role: "Freelancer", text: "Clean code output and amazing dark aesthetics. Highly recommend!", rating: 5 },
-    { name: "James Watt", role: "Startup Founder", text: "Saved us weeks of development time. The AI suggestions are spot on.", rating: 5 },
-  ];
+const features = [
+  "No-auth preview mode",
+  "Real-time synchronization",
+  "Clean React output",
+];
 
-  return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
-      
-      <section className="relative pt-20 pb-32 px-6 flex flex-col items-center overflow-hidden">
-        <div className="absolute top-0 w-full h-[500px] bg-blue-600/10 blur-[120px] rounded-full -z-10" />
-        
-        <div className="text-center max-w-3xl mb-12">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-b from-white to-zinc-500 bg-clip-text text-transparent">
-            Experience the Future
-          </h1>
-          <p className="text-zinc-400 text-lg">
-            No sign-up required. Watch how easy it is to transform your ideas into reality.
-          </p>
-        </div>
+const cards = [
+  { label: "Components shipped", value: "2,400+", accent: false },
+  { label: "Avg. build time",    value: "3 days",  accent: true  },
+  { label: "Integrations",       value: "60+",     accent: false },
+  { label: "Uptime",             value: "99.98%",  accent: false },
+];
 
-        <div className="relative group max-w-5xl w-full aspect-video rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden shadow-2xl shadow-blue-500/5">
-          <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-all cursor-pointer">
-            <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-xl group-hover:scale-110 transition-transform">
-              <Play fill="currentColor" size={32} />
-            </div>
-          </div>
-          <video 
-
-            className="w-full h-full object-cover opacity-60"
-            poster="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
-          />
-        </div>
-      </section>
-
-      <section className="py-24 bg-zinc-950">
-        <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-sm text-zinc-400 mb-6">
-              <Info size={16} />
-              <span>About the Platform</span>
-            </div>
-            <h2 className="text-4xl font-bold mb-6">Crafting web experiences with precision.</h2>
-            <p className="text-zinc-400 leading-relaxed mb-8">
-              We built this tool for developers who value speed without sacrificing quality. 
-              Our platform handles the heavy lifting of layout and state management so you 
-              can focus on what makes your product unique.
-            </p>
-            <ul className="space-y-4">
-              {['No-auth preview mode', 'Real-time synchronization', 'Clean React output'].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-zinc-300">
-                  <CheckCircle size={18} className="text-blue-500" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="h-40 rounded-2xl bg-zinc-900 border border-zinc-800 p-6 flex flex-col justify-end">
-              <span className="text-3xl font-bold italic">99%</span>
-              <span className="text-zinc-500 text-sm">Efficiency</span>
-            </div>
-            <div className="h-40 mt-8 rounded-2xl bg-blue-600 p-6 flex flex-col justify-end">
-              <span className="text-3xl font-bold italic">24/7</span>
-              <span className="text-blue-100 text-sm">Reliability</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Reviews Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold">Loved by Developers</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {reviews.map((review, i) => (
-              <div key={i} className="p-8 rounded-2xl border border-zinc-800 bg-zinc-900/30 backdrop-blur-sm">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={14} className="fill-yellow-500 text-yellow-500" />
-                  ))}
-                </div>
-                <p className="text-zinc-300 italic mb-6 text-sm">"{review.text}"</p>
-                <div>
-                  <p className="font-bold">{review.name}</p>
-                  <p className="text-zinc-500 text-xs">{review.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Call to Action */}
-      <footer className="py-20 border-t border-zinc-900 text-center">
-        <p className="text-zinc-500 mb-6">Ready to start building?</p>
-        <button className="px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-zinc-200 transition-colors">
-          Join the Beta
-        </button>
-      </footer>
-    </div>
-  );
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show:   { opacity: 1, y: 0 },
 };
 
-export default SiteDemoPage;
+export default function AboutSection() {
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
+
+  return (
+    <section className="relative min-h-screen flex items-center bg-[#08080c] px-6 py-28 overflow-hidden">
+
+      <svg className="absolute inset-0 w-full h-full opacity-[0.03] pointer-events-none">
+        <defs>
+          <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M 48 0 L 0 0 0 48" fill="none" stroke="white" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+
+      <div className="absolute -left-48 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-blue-600/[0.07] blur-[80px] pointer-events-none" />
+      <div className="absolute -right-24 bottom-1/4 w-96 h-96 rounded-full bg-blue-500/[0.05] blur-[80px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-20 items-center">
+
+        <motion.div
+          className="grid grid-cols-2 gap-3"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ staggerChildren: 0.1 }}
+        >
+          {cards.map((card, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className={[
+                "rounded-2xl p-6 cursor-default",
+                i % 2 === 1 ? "mt-6" : "",
+                card.accent
+                  ? "bg-gradient-to-br from-violet-500/10 to-blue-500/10 border border-gradient-to-br from-blue-500/30 to-yellow-300/10"
+                  : "bg-white/[0.03] border border-white/[0.06]",
+              ].join(" ")}
+            >
+              <p
+                className={`text-4xl tracking-tight leading-none mb-2 ${card.accent ? "text-blue-400" : "text-white"}`}
+                style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+              >
+                {card.value}
+              </p>
+              <p className="text-[11px] uppercase tracking-widest text-white/35">
+                {card.label}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
+        >
+          <motion.p
+            variants={fadeUp}
+            transition={{ duration: 0.4 }}
+            className="text-[11px] uppercase tracking-[0.14em] text-blue-500 mb-5"
+          >
+            About the Platform
+          </motion.p>
+
+          <motion.h2
+            variants={fadeUp}
+            transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-4xl md:text-5xl font-normal leading-[1.15] tracking-tight text-white mb-6"
+            style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+          >
+            Precision tooling for teams that ship.
+          </motion.h2>
+
+          <motion.p
+            variants={fadeUp}
+            transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-base leading-[1.8] text-white/40 mb-9"
+          >
+            We built this for developers who value speed without sacrificing quality.
+            Our platform handles layout, state management, and integration so you can
+            focus on what makes your product unique.
+          </motion.p>
+
+          <motion.ul
+            className="flex flex-col gap-3.5"
+            transition={{ staggerChildren: 0.1 }}
+          >
+            {features.map((item, i) => (
+              <motion.li
+                key={i}
+                variants={fadeUp}
+                transition={{ duration: 0.4 }}
+                className="flex items-center gap-3 text-white/65 text-[15px]"
+              >
+                <CheckCircle size={16} className="text-yellow-500 shrink-0" />
+                {item}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+}

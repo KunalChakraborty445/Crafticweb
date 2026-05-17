@@ -11,6 +11,7 @@ import LoginModel from './Components/Auth/LoginModel.jsx';
 import WebsiteEditor from './pages/WebsiteEditor.jsx';
 import PricingPage from './pages/PricingPage.jsx';
 import LiveSite from './pages/LiveSite.jsx';
+import ErrorPage from './pages/ErrorPage.jsx';
 export const serverUrl = "http://localhost:4000";
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/pricing" element={
           <ProtectedRoute element={<PricingPage />} openLogin={() => setLoginOpen(true)} />
         } />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   )
