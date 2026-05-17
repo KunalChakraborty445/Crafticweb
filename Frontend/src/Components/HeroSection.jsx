@@ -44,7 +44,7 @@ const HeroSection = ({ openLogin }) => {
         className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/30 bg-purple-500/10 text-blue-300 text-sm mb-6'
       >
         <span className='w-2 h-2 rounded-full bg-yellow-400 animate-pulse' />
-        AI-Powered Website Builder
+        AI-Powered Website Builder • Public Beta ✦
       </motion.div>
 
       <motion.h1
@@ -86,7 +86,7 @@ const HeroSection = ({ openLogin }) => {
           <button
           onClick={()=> navigate('/demo')}
           className="px-8 py-4.5 rounded-xl border border-zinc-700 bg-zinc-900/50 text-zinc-300 text-sm font-medium transition-all hover:border-zinc-400 hover:text-white hover:bg-zinc-800">
-            View Demo
+            Learn More
           </button>
         )}
         
