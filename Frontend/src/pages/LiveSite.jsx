@@ -18,8 +18,7 @@ const LiveSite = () => {
         setLoading(true)
         setError('')
         const result = await axios.get(
-          `${serverUrl}/api/v1/website/getWebsite-by-slug/${id}`,
-          { withCredentials: true, signal: controller.signal }
+          `${serverUrl}/api/v1/website/getWebsite-by-slug/${id}`
         )
         setHtml(result.data.latestCode)
       } catch (err) {
