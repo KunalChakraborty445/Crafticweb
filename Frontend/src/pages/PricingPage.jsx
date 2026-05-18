@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { serverUrl } from '../App';
 
 const plans = [
   {
-    name: "Starter",
+    name: "free",
     price: 0,
     description: "For hobbyists and side projects.",
     features: ["100 credits", "Up to 3 projects", "Community support"],
@@ -38,7 +41,32 @@ const plans = [
 
 const PricingPage = () => {
   const navigate = useNavigate();
+  const { userData } = useSelector(state => state.user);
   const [hoveredPlan, setHoveredPlan] = useState(null);
+  const [loading, setLoading] = useState(null); 
+
+  const handleBuy = async (planName) => { 
+    if (!userData) {
+      navigate("/");
+      return;
+    }
+    if (planName === "free") {
+      navigate("/dashboard");
+      return;
+    }
+    setLoading(planName);
+    try {
+      const result = await axios.post(
+        `${serverUrl}/api/v1/billing`,
+        { planType: planName },
+        { withCredentials: true }
+      );
+      window.location.href = result.data.sessionUrl; // FIX 3: = assignment, not () call
+    } catch (error) {
+      console.error("Error purchasing plan:", error);
+      setLoading(null);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -181,6 +209,8 @@ const PricingPage = () => {
 
                 <motion.button
                   whileTap={{ scale: 0.97 }}
+                  disabled={loading === plan.name}
+                  onClick={() => handleBuy(plan.name)} // FIX 4: plan.name instead of plan.key
                   whileHover={{ scale: 1.02 }}
                   className={`w-full py-2.5 rounded-xl text-xs font-bold transition-colors ${
                     plan.highlight
@@ -190,7 +220,7 @@ const PricingPage = () => {
                       : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
                   }`}
                 >
-                  {plan.buttonText}
+                  {loading == plan.name? "Processing..." : plan.buttonText}
                 </motion.button>
               </div>
             </motion.div>
