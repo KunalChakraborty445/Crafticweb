@@ -8,11 +8,11 @@ import cors from 'cors';
 import websiteRouter from './routes/website.routes.js';
 import billingRouter from './routes/billing.route.js';
 import { stripeWebhookController } from './controllers/stripeWebhook.controller.js';
+config();
 
 
 const app = express();
 app.post('/api/v1/stripe/webhook',express.raw({type: 'application/json'}), stripeWebhookController)
-config();
 dbConnect();
 const PORT = process.env.PORT || 5000;
 

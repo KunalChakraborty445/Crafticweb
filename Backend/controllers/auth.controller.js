@@ -11,7 +11,7 @@ const cookieOptions = {
     httpOnly: true,
     // In production we require cross-site cookies (sameSite: 'none' and secure:true).
     // For local development (http) set secure=false and a more permissive sameSite.
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     secure: process.env.NODE_ENV === 'production',
     maxAge: 3 * 24 * 60 * 60 * 1000
 }
