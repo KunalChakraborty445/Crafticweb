@@ -11,7 +11,7 @@ import { stripeWebhookController } from './controllers/stripeWebhook.controller.
 
 
 const app = express();
-app.post('/api/v1/stripe',express.raw({type: 'application/json'}), stripeWebhookController)
+app.post('/api/v1/stripe/webhook',express.raw({type: 'application/json'}), stripeWebhookController)
 config();
 dbConnect();
 const PORT = process.env.PORT || 5000;
