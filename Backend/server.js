@@ -20,7 +20,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin:"https://crafticwebai-beta.onrender.com",
-    credentials: true,
+       credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }))
 
 app.use((req, res, next) => {
