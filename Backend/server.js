@@ -18,7 +18,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = [process.env.CLIENT_URL, process.env.FRONTEND_URL, "http://localhost:5173"].filter(Boolean);
+// Trusted frontend origins. Add your deployed frontend host here as a fallback
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    process.env.FRONTEND_URL,
+    "http://localhost:5173",
+    "https://crafticwebai-beta.onrender.com"
+].filter(Boolean);
 
 app.use(cors({
     origin: function (origin, callback) {
@@ -39,6 +45,11 @@ app.use(cors({
 app.get('/',(req,res)=>{
     res.send("api working fine");
 })
+
+// Debug route: returns the Origin header and request headers for troubleshooting CORS
+app.get('/api/v1/debug/origin', (req, res) => {
+    return res.json({ originHeader: req.get('origin') || null, headers: req.headers });
+});
 
 
 
