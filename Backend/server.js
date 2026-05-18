@@ -18,17 +18,23 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [process.env.CLIENT_URL, process.env.FRONTEND_URL, "http://localhost:5173"].filter(Boolean);
+
 app.use(cors({
-    origin:"https://crafticwebai-beta.onrender.com",
-       credentials: true,
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
-}))
+}));
 
-app.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
-    next()
-})
+// NOTE: Removed global Cross-Origin-Opener-Policy header because it
+// interferes with popup/window close behavior for third-party auth/checkout flows.
 
 app.get('/',(req,res)=>{
     res.send("api working fine");
