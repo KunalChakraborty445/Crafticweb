@@ -4,7 +4,7 @@ An AI-powered website builder that turns plain English into fully coded, product
 
 > Describe your vision. The AI builds it. Deploy with one click.
 
-[![CrafticWeb.ai](./assets/preview.png)](https://crafticwebai-beta.onrender.com)
+[![CrafticWeb.ai](./assets/CrafticwebAI_preview.png)](https://crafticwebai-beta.onrender.com)
 
 ---
 
